@@ -36,7 +36,7 @@ Type the following command in order to run the
 [BDD](http://en.wikipedia.org/wiki/Behavior-driven_development)
 tests.
 
-	./node_modules/.bin/mocha
+	
 
 That will run all the tests in `test/tests.js`.
 
