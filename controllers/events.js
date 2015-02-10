@@ -49,6 +49,15 @@ function newEvent(request, response){
   response.render('create-event.html', contextData);
 }
 
+function isValidImageUrl (imageUrl) {
+  if (validator.isURL(imageUrl)){
+    if(validator.contains(imageUrl, '.png') || validator.contains(imageUrl, '.gif')){
+      return true;
+    }
+  }
+  return false;
+}
+
 /**
  * Controller to which new events are submitted.
  * Validates the form and adds the new event to
@@ -60,6 +69,11 @@ function saveEvent(request, response){
   if (validator.isLength(request.body.title, 5, 50) === false) {
     contextData.errors.push('Your title should be between 5 and 100 letters.');
   }
+  
+  if(isValidImageUrl(request.body.image) === false){
+    contextData.errors.push('Bad image url');    
+  }
+
 
 
   if (contextData.errors.length === 0) {
