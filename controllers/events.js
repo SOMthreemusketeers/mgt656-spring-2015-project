@@ -129,6 +129,7 @@ function api (request, response){
   response.json(output);
 }
 
+//Olivia ADDED
 function showStatus(request, response) {
   response.render('statusreport.html');
 }
