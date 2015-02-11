@@ -129,6 +129,10 @@ function api (request, response){
   response.json(output);
 }
 
+function showStatus(request, response) {
+  response.render('statusreport.html');
+}
+
 /**
  * Export all our functions (controllers in this case, because they
  * handles requests and render responses).
@@ -139,5 +143,6 @@ module.exports = {
   'newEvent': newEvent,
   'saveEvent': saveEvent,
   'rsvp': rsvp,
-  'api': api
+  'api': api,
+  'showStatus' : showStatus
 };
