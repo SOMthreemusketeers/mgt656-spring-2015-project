@@ -57,10 +57,20 @@ function newEvent(request, response){
 function saveEvent(request, response){
   var contextData = {errors: []};
 
-  if (validator.isLength(request.body.title, 5, 50) === false) {
-    contextData.errors.push('Your title should be between 5 and 100 letters.');
+  if (validator.isLength(request.body.title, 0, 50) === false) {
+    contextData.errors.push('Your title should be less than 50 letters.');
   }
+}
 
+
+function saveEvent(request, response){
+  var contextData = {errors: []};
+
+  if (validator.isInt(request.body.year) === false) {
+    contextData.errors.push('Your can only schedule events for 2015 and 2016.');
+  }  else{
+    response.render('create-event.html', contextData);
+  }
 
   if (contextData.errors.length === 0) {
     var newEvent = {
@@ -76,6 +86,7 @@ function saveEvent(request, response){
     response.render('create-event.html', contextData);
   }
 }
+
 
 function eventDetail (request, response) {
   var ev = events.getById(parseInt(request.params.id));
