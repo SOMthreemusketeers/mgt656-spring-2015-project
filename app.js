@@ -22,7 +22,8 @@ app.get('/about', aboutControllers.about);
 app.get('/events', eventControllers.listEvents);
 app.get('/events/new', eventControllers.newEvent);
 app.get('/api/events', eventControllers.api);
+app.get('/events/:id', eventControllers.eventDetail);
+//Olivia ADDED
 app.get('/statusreport', eventControllers.showStatus);
-app.post('/events/new', eventControllers.saveEvent);
 
 module.exports = app;
