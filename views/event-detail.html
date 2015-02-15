@@ -9,12 +9,22 @@
 
 {% block mainContent %}
 
+<p>
+  {{event.image}}<br>
+  {{event.title}}<br>
+  <time datetime="{{event.date}}">{{event.date|prettyDate}}</time> <Br>
+  {{event.location}}<br>
+  {{event.attending.length}} attending so far.
+  
+</p>
+  
+ 
 
+{% endblock %}
 
-
-
-
-
-
-
+{% block footer %}
+  <footer>
+    The time is now {{time}}.
+    <a href="/about">About us</a>.
+  </footer>
 {% endblock %}
