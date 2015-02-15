@@ -97,13 +97,17 @@ function eventDetail (request, response) {
 }
 
 function rsvp (request, response){
-  var ev = events.getById(parseInt(request.params.id));
+  var params = request.body;
+  
+  var ev = events.getById(parseInt(params.id));
+  
   if (ev === null) {
     response.status(404).send('No such event');
   }
-
-  if(validator.isEmail(request.body.email)){
-    ev.attending.push(request.body.email);
+    var email = params.email;//.toLowerCase();
+  if(validator.isEmail(email) ){
+    
+    ev.attending.push(email);
     response.redirect('/events/' + ev.id);
   }else{
     var contextData = {errors: [], event: ev};

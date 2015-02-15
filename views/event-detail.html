@@ -2,17 +2,55 @@
 
 {% block header %}
   <header>
-    <h1>{{event.title}}</h1>
+    <h1 id="title">{{event.title}}</h1>
+    
   </header>
 {% endblock %}
 
 
 {% block mainContent %}
 
+<img id="image" src="{{event.image}}"></img>
+    <span id="date">{{event.date}}</span>
+    <span id="location">{{event.location}}</span>
+    <ul id="attendees">
+      {% for attendee in event.attending %}
+      <li>{{attendee}}</li>
+      {% endfor %}
+    </ul>
+    
+<form action="/events/rsvp" method="POST" >
+  <input type="hidden" name="id" value="{{event.id}}"/>
 
+	<input id="email" type="text" name="email" placeholder="email">
+	
 
+	<input type="submit" name="Submit" id="sub">
+</form>
 
-
+<script type="text/javascript" >
+  $(function(){
+     $('#sub').click(function(e){
+     
+    
+    var email = $("#email").val().toLowerCase();
+    
+    
+    if (email.indexOf("@yale.edu") ==-1) {
+      $("form").append('<ul class="form-errors">Only for Yale attendees</ul>');
+      
+      return false;
+      
+    } 
+    else{
+      return true;
+    }
+    
+  })
+ 
+    
+});
+</script>
 
 
 
