@@ -2,7 +2,7 @@
 
 {% block header %}
   <header>
-    <h1>{{event.title}}</h1>
+    <h1 id="title">{{event.title}}</h1>
   </header>
 {% endblock %}
 
@@ -10,10 +10,18 @@
 {% block mainContent %}
 
 <p>
-  {{event.image}}<br>
-  {{event.location}}<br>
-  <time datetime="{{event.date}}">{{event.date|prettyDate}}</time> <Br>
-  {{event.attending.length}} attending so far. <br>
+  <img src="{{event.image}}" id="image"><br>
+  <strong>Where</strong>: <span id="location">{{event.location}}</span><br>
+  <strong>When</strong>: <span id="date"><time datetime="{{event.date}}">{{event.date|prettyDate}}</time></span> <Br>
+  <strong>Who</strong>: {{event.attending.length}} attending so far: 
+  <ul id="attendees">
+    {% for person in event.attending %}
+    <li>{{person}}</li>
+    {% endfor %}
+    </ul>
+  
+  
+  {{event-attending}} <br>
   
 </p>
   
@@ -21,9 +29,6 @@
 
 {% endblock %}
 
-{% block footer %}
-  <footer>
-    The time is now {{time}}.
-    <a href="/about">About us</a>.
-  </footer>
-{% endblock %}
+  {% block footer %}
+      <footer><a href="/">Home</a> <a href="/about">About us</a></footer>
+  {% endblock %}
