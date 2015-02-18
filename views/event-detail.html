@@ -10,10 +10,10 @@
 
 {% block mainContent %}
 <p>
-<img id="image" src="{{event.image}}"></img>
-   <strong>Where</strong>: <span id="location">{{event.location}}</span>
-   <strong>When</strong>: <span id="date"> <time datetime="{{event.date}}">{{event.date|prettyDate}}</time></span>  
-   <strong>Who</strong>: {{event.attending.length}} attending so far:
+<img id="image" src="{{event.image}}"></img> <Br>
+   <strong>Where</strong>: <span id="location">{{event.location}}</span> <br>
+   <strong>When</strong>: <span id="date"> <time datetime="{{event.date}}">{{event.date|prettyDate}}</time></span><br>
+   <strong>Who</strong>: {{event.attending.length}} attending so far: 
     <ul id="attendees">
       {% for person in event.attending %}
       <li>{{person}}</li>
