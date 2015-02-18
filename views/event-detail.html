@@ -2,25 +2,58 @@
 
 {% block header %}
   <header>
-    <h1>{{event.title}}</h1>
+    <h1 id="title">{{event.title}}</h1>
+    
   </header>
 {% endblock %}
 
 
 {% block mainContent %}
-
 <p>
-  <img src="{{event.image}}"><br>
-  <strong>Where</strong>: {{event.location}}<br>
-  <strong>When</strong>: <time datetime="{{event.date}}">{{event.date|prettyDate}}</time> <Br>
-  <strong>Who</strong>: {{event.attending.length}} attending so far: {{event-attending}} <br>
-  
-</p>
-  
+<img id="image" src="{{event.image}}"></img>
+   <strong>Where</strong>: <span id="location">{{event.location}}</span>
+   <strong>When</strong>: <span id="date"> <time datetime="{{event.date}}">{{event.date|prettyDate}}</time></span>  
+   <strong>Who</strong>: {{event.attending.length}} attending so far:
+    <ul id="attendees">
+      {% for person in event.attending %}
+      <li>{{person}}</li>
+      {% endfor %}
+    </ul>
+  </p>  
+<form action="/events/rsvp" method="POST" >
+  <input type="hidden" name="id" value="{{event.id}}"/>
+
+	<input id="email" type="text" name="email" placeholder="email">
+	
+
+	<input type="submit" name="Submit" id="sub">
+</form>
+
+<script type="text/javascript" >
+  $(function(){
+     $('#sub').click(function(e){
+     
+    
+    var email = $("#email").val().toLowerCase();
+    
+    
+    if (email.indexOf("@yale.edu") ==-1) {
+      $("form").append('<ul class="form-errors">Only for Yale attendees</ul>');
+      
+      return false;
+      
+    } 
+    else{
+      return true;
+    }
+    
+  })
  
+    
+});
+</script>
+
+
+
 
 {% endblock %}
-
-  {% block footer %}
-      <footer><a href="/">Home</a> <a href="/about">About us</a></footer>
-  {% endblock %}
