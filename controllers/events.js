@@ -132,15 +132,25 @@ function eventDetail (request, response) {
 }
 
 function rsvp (request, response){
-  var ev = events.getById(parseInt(request.params.id));
+  var params = request.body;
+  
+  var ev = events.getById(parseInt(params.id));
+  
   if (ev === null) {
     response.status(404).send('No such event');
   }
+<<<<<<< HEAD
 
   if(validator.isEmail(request.body.email) 
   && request.body.email.toLowerCase().indexOf('yale.edu')>-1)
     {
     ev.attending.push(request.body.email);
+=======
+    var email = params.email;//.toLowerCase();
+  if(validator.isEmail(email) ){
+    
+    ev.attending.push(email);
+>>>>>>> 8ffa4a467d6051419d508a84ecc0f84064525c30
     response.redirect('/events/' + ev.id);
   }else{
     var contextData = {errors: [], event: ev};
@@ -166,6 +176,11 @@ function api (request, response){
   response.json(output);
 }
 
+//Olivia ADDED
+function showStatus(request, response) {
+  response.render('statusreport.html');
+}
+
 /**
  * Export all our functions (controllers in this case, because they
  * handles requests and render responses).
@@ -176,5 +191,6 @@ module.exports = {
   'newEvent': newEvent,
   'saveEvent': saveEvent,
   'rsvp': rsvp,
-  'api': api
+  'api': api,
+  'showStatus' : showStatus
 };

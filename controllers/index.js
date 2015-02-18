@@ -7,8 +7,8 @@ var events = require('../models/events');
  */
 function index (request, response) {
   var contextData = {
-    'title': 'MGT 656',
-    'tagline': 'You are doomed (just kidding).',
+    'title': 'Welcome to the Three Musketeers Event Planner. ',
+    'tagline': 'Join us, and plan your own',
     'events': events.all
     
   };
