@@ -2,7 +2,6 @@
 
 var events = require('../models/events');
 var validator = require('validator');
-var lodash = require('lodash');
 
 // Date data that would be useful to you
 // completing the project These data are not
@@ -27,9 +26,7 @@ var allowedDateInfo = {
   hours: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
-  ],
-  years: [2015,2016],
-  days: lodash.range(1,32)
+  ]
 };
 
 /**
@@ -52,63 +49,21 @@ function newEvent(request, response){
   response.render('create-event.html', contextData);
 }
 
-function checkIntRange(request, fieldName, minVal, maxVal, contextData){
-  var value = null;
-  if (validator.isInt(request.body[fieldName])=== false) {
-    contextData.errors.push('Your ' + fieldName + ' should be an integer.');
-  } else {
-    value = parseInt(request.body[fieldName], 10);
-    if (value > maxVal || value < minVal) {
-      contextData.errors.push('Your ' + fieldName + ' should be in the range ' + minVal + '-' + maxVal);
-    }
-  }
-  return value;
-}
- 
- 
 /**
  * Controller to which new events are submitted.
  * Validates the form and adds the new event to
  * our global list of events.
  */
- 
- 
- 
- 
 function saveEvent(request, response){
-  var contextData = {errors: [], allowedDateInfo:allowedDateInfo};
+  var contextData = {errors: []};
 
-  if (validator.isLength(request.body.title, 0, 50) === false) {
-    contextData.errors.push('Your title should be less than 50 letters.');
-  }
-  if (validator.isLength(request.body.location, 0, 50) === false) {
-    contextData.errors.push('Your location should be less than 50 letters.');
-  }
-
-  var year = checkIntRange(request, 'year', 2015, 2016, contextData);
-  var month = checkIntRange(request, 'month', 0, 11, contextData);
-  var day = checkIntRange(request, 'day', 1, 31, contextData);
-  var hour = checkIntRange(request, 'hour', 0, 23, contextData);
-  
-  var imageName = request.body.image;
-  var imageNameChecker = imageName.toLowerCase();
-  
-  if (imageNameChecker.match(/\.(png|gif)$/) === null) {
-    contextData.errors.push('Your image should be of type PNG or GIF');
-  }
-  
-  if (validator.isURL(request.body.image) === false) {
-    contextData.errors.push('Your image should be a URL.');
-  }
-  
-  if (validator.isLength(request.body.location, 5, 50) === false) {
-    contextData.errors.push('Your location should be between 5 and 50 characters.');
+  if (validator.isLength(request.body.title, 5, 50) === false) {
+    contextData.errors.push('Your title should be between 5 and 100 letters.');
   }
 
 
   if (contextData.errors.length === 0) {
     var newEvent = {
-      id:events.getMaxId()+1,
       title: request.body.title,
       location: request.body.location,
       image: request.body.image,
@@ -116,12 +71,12 @@ function saveEvent(request, response){
       attending: []
     };
     events.all.push(newEvent);
-    response.redirect('/events/'+newEvent.id);
-  }else{
+    response.redirect('/events');
+  }
+  else{
     response.render('create-event.html', contextData);
   }
 }
-
 
 function eventDetail (request, response) {
   var ev = events.getById(parseInt(request.params.id));
@@ -132,25 +87,13 @@ function eventDetail (request, response) {
 }
 
 function rsvp (request, response){
-  var params = request.body;
-  
-  var ev = events.getById(parseInt(params.id));
-  
+  var ev = events.getById(parseInt(request.params.id));
   if (ev === null) {
     response.status(404).send('No such event');
   }
-<<<<<<< HEAD
 
-  if(validator.isEmail(request.body.email) 
-  && request.body.email.toLowerCase().indexOf('yale.edu')>-1)
-    {
+  if(validator.isEmail(request.body.email)){
     ev.attending.push(request.body.email);
-=======
-    var email = params.email;//.toLowerCase();
-  if(validator.isEmail(email) ){
-    
-    ev.attending.push(email);
->>>>>>> 8ffa4a467d6051419d508a84ecc0f84064525c30
     response.redirect('/events/' + ev.id);
   }else{
     var contextData = {errors: [], event: ev};
@@ -176,8 +119,7 @@ function api (request, response){
   response.json(output);
 }
 
-//Olivia ADDED
-function showStatus(request, response) {
+function showStatus(request, response){
   response.render('statusreport.html');
 }
 
@@ -192,5 +134,5 @@ module.exports = {
   'saveEvent': saveEvent,
   'rsvp': rsvp,
   'api': api,
-  'showStatus' : showStatus
+  'showStatus': showStatus
 };
